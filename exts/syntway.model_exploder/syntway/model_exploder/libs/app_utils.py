@@ -13,7 +13,7 @@ import omni.usd
 from pxr import Gf, Tf, Sdf, Usd, UsdGeom, CameraUtil
 
 
-VERSION = 10
+VERSION = 11
 
 
 def call_after_update(fn, update_count=1):
@@ -140,6 +140,9 @@ def get_setting_or(path, not_found_value):
 def set_setting(path, value):
     carb.settings.get_settings().set(path, value)
 
+
+def delete_setting(path):
+    carb.settings.get_settings().destroy_item(path)
 
 
 def get_extension_path(ext_id, sub_path=None):

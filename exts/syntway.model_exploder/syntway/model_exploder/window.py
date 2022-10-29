@@ -57,6 +57,7 @@ class Window(ui.Window):
 
         self.auto_resize = True
 
+        self._ui_built = False
         self.frame.set_build_fn(self._build_fn)
 
         self._vp = ViewportHelper()
@@ -279,6 +280,8 @@ class Window(ui.Window):
                 #ui.Button("Test", clicked_fn=self._on_test)
         
 
+        self._ui_built = True
+
         self._refresh_ui()
         
 
@@ -287,6 +290,9 @@ class Window(ui.Window):
 
     def _on_stage_event(self, ev: carb.events.IEvent):
         # print("Window._on_stage_event", ev.type)
+
+        if not self._ui_built:  # a stage event can call us before _build_fn()
+            return
 
         if ev.type == int(omni.usd.StageEventType.SELECTION_CHANGED):
             if not self._engine.has_meshes:
