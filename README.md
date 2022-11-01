@@ -4,7 +4,7 @@
 
 Model Exploder separates a 3D model into its component parts for a better view of their relationship and how they fit together.
 
-Model separation happens as if by a small controlled explosion, emanating from its center. This is often known as an exploded-view of the model.
+Model separation happens as if by a small controlled explosion, emanating from its center. This is often known as an [exploded-view](https://en.wikipedia.org/wiki/Exploded-view_drawing) of the model.
 
 Exploded-views can be used to understand a model from its components and can also be used to create drawings for parts catalogs or assembly/maintenance/instruction information. Or in general, just to blow-up a 3D model.
 
