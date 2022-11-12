@@ -28,7 +28,7 @@ Exploded-views can be used to understand a model from its components and can als
 
 This tool is a plain Omniverse extension that can be installed like any other.
 
-1. Download the [release](https://github.com/syntway/model_exploder/releases) or clone the [repository](https://github.com/syntway/model_exploder) into your computer.
+1. Download the latest [release](https://github.com/syntway/model_exploder/releases) or clone the [repository](https://github.com/syntway/model_exploder) into your computer.
 2. In the Omniverse App (Create, Code, etc.), open the Extensions window from: Window menu > Extensions.
 3. In the Extensions window, open the Settings page, by clicking the small gear button at the top of the left bar.
 4. In the Settings page that appears at the right, you'll see a list of Extension Search Paths. Add the path location of the exts/ subfolder. This subfolder is inside the location to where you installed in step 1.
