@@ -15,9 +15,6 @@ from . import const
 
 
 class Extension(omni.ext.IExt):
-    # ext_id is current extension id. It can be used with extension manager to query additional information, like where
-    # this extension is located on filesystem.
-
 
     def on_startup(self, ext_id):
         # print("ext.on_startup", ext_id)
@@ -67,17 +64,8 @@ class Extension(omni.ext.IExt):
             #assert self._window is None, "self._window should be None"
 
             if self._window is None:
-
-                if True:
-                    self._window = Window(const.WINDOW_NAME, self._ext_id)
-                else:
-                    self._window = ui.Window("My Window", width=300, height=300)
-                    with self._window.frame:
-                        with ui.VStack():
-                            ui.Label("Some Label")
-
+                self._window = Window(const.WINDOW_NAME, self._ext_id)
                 self._window.set_visibility_changed_fn(self._visibility_changed_fn)
-
             else:
                 self._window.show()
 

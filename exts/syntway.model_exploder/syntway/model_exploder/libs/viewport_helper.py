@@ -89,13 +89,16 @@ from pxr import Gf, Tf, Sdf, Usd, UsdGeom, CameraUtil
 
 SETTING_RENDER_WIDTH = "/app/renderer/resolution/width"
 SETTING_RENDER_HEIGHT = "/app/renderer/resolution/height"
-SETTING_RENDER_FILL = "/app/runLoops/rendering_0/fillResolution"
+SETTING_CONFORM_POLICY = "/app/hydra/aperture/conform"
+SETTING_RENDER_FILL_LEGACY = "/app/runLoops/rendering_0/fillResolution"
+SETTING_RENDER_FILL = "/persistent/app/viewport/{api_id}/fillViewport"
+SETTING_DEFAULT_WINDOW_NAME = "/exts/omni.kit.viewport.window/startup/windowName"
 
 
 class ViewportHelper():
-    LIB_VERSION = 42
+    LIB_VERSION = 45
 
-    def __init__(self, attach=True):
+    def __init__(self, window_name=None, attach: bool = True):
         self._win = None
         self._api = None
         self._ws_win_frame = None
@@ -106,16 +109,16 @@ class ViewportHelper():
 
         self._is_legacy = True
 
-        self._frame_mouse_fns = {} # frame: set(fn,fn,...)
+        self._frame_mouse_fns = {}  # frame: set(fn,fn,...)
 
-        self._frame_size_changed_fns = {} # frame: set(fn,fn,...)
-        self._render_changed_fns = set() # set(fn,fn,...)
-        self._stage_objects_changed = None # [listener, set(fn,fn,...)]
+        self._frame_size_changed_fns = {}  # frame: set(fn,fn,...)
+        self._render_changed_fns = set()  # set(fn,fn,...)
+        self._stage_objects_changed = None  # [listener, set(fn,fn,...)]
 
-        self._changed_fns = {} # fn: sub_flags
+        self._changed_fns = {}  # fn: sub_flags
 
         if attach:
-            res = self.attach()
+            res = self.attach(window_name=window_name)
             if not res: 
                 raise AssertionError("Could not attach")
 
@@ -126,12 +129,30 @@ class ViewportHelper():
 
 
 
-    def attach(self, window_name: str = None, usd_context_name: str = '') -> bool:
-        """Window selection order: .get_active_viewport_and_window() vut tries to attach "Viewport Next" first then legacy "Viewport" windows."""
+    def attach(self, window_name=None, usd_context_name: str = '') -> bool:
+        """ window_name:
+            str: actual window name/title, like "Viewport"
+            None: current/last active viewport
+            int: index into ViewportHelper.get_window_names()
+
+        Window selection order: .get_active_viewport_and_window() vut tries to attach "Viewport Next" first,
+        then legacy "Viewport" windows."""
 
         self.detach()
 
-        self._api,self._win = vut.get_active_viewport_and_window(usd_context_name = usd_context_name, window_name = window_name)
+        if window_name is not None:
+            if type(window_name) is int:
+                wn_list = ViewportHelper.get_window_names()
+                if window_name < len(wn_list):
+                    window_name = wn_list[window_name]
+                else:
+                    raise AssertionError("Non-existent window_name")
+            else:
+                raise AssertionError("Bad window_name index")
+
+
+        self._api,self._win = vut.get_active_viewport_and_window(usd_context_name=usd_context_name,
+                                                                 window_name=window_name)
 
         if self._win is None or self._api is None:
             self._win = None
@@ -145,7 +166,7 @@ class ViewportHelper():
 
         self._is_legacy = hasattr(self._api, "legacy_window")
 
-        self._ws_win = ui.Workspace.get_window( self._win.name )
+        self._ws_win = ui.Workspace.get_window(self._win.name)
         if self._ws_win is None:
             raise AssertionError("Workspace window not available")
 
@@ -206,10 +227,21 @@ class ViewportHelper():
     def window_name(self) -> str:
         return self._win.name
 
+    @staticmethod
+    def get_default_window_name():
+        return carb.settings.get_settings().get(SETTING_DEFAULT_WINDOW_NAME) or 'Viewport'
+
+    @staticmethod
+    def get_window_names():
+        try:
+            from omni.kit.viewport.window import get_viewport_window_instances
+            return [w.title for w in get_viewport_window_instances()]
+        except ImportError:
+            return [ViewportHelper.get_default_window_name()]
+
     @property
     def is_legacy(self):
         return self._is_legacy
-
 
     @property
     def camera_path(self) -> Sdf.Path:
@@ -226,6 +258,9 @@ class ViewportHelper():
             return None
         return frustum.ComputeViewMatrix(), frustum.ComputeProjectionMatrix()
 
+
+    def same_api(self, api) -> bool:
+        return id(api) == id(self._api)
 
 
     def get_gf_camera(self):
@@ -316,9 +351,11 @@ class ViewportHelper():
 
 
     """
-    Kit-103.1.2/1.3: render_fill_frame get/set does not work coherently
-    Legacy Viewport: setting fill_frame makes viewport settings "Fill Viewport" disappear
-    Next Viewport: only works setting to True
+    Kit-103.1.2/3: render_fill_frame get/set does not work coherently
+        Legacy Viewport: setting fill_frame makes viewport settings "Fill Viewport" disappear
+        Viewport 2: only works setting to True
+    Kit 104.0:
+        Viewport 2: api is not initialized to setting: so we use setting
 
     @property
     def render_fill_frame(self):
@@ -331,13 +368,20 @@ class ViewportHelper():
 
     @property
     def render_fill_frame(self):        
-        settings = carb.settings.get_settings()
-        return bool( settings.get(SETTING_RENDER_FILL) )
+        if self._is_legacy:
+            name = SETTING_RENDER_FILL_LEGACY
+        else:
+            name = SETTING_RENDER_FILL.format(api_id=self._api.id)
+        return bool(carb.settings.get_settings().get(name))
+
 
     @render_fill_frame.setter
     def render_fill_frame(self, value: bool):
-        settings = carb.settings.get_settings()
-        settings.set(SETTING_RENDER_FILL, value)
+        if self._is_legacy:
+            name = SETTING_RENDER_FILL_LEGACY
+        else:
+            name = SETTING_RENDER_FILL.format(api_id=self._api.id)
+        carb.settings.get_settings().set(name, value)
 
 
 
@@ -361,8 +405,7 @@ class ViewportHelper():
     def get_conform_policy():
         """conform_policy: how is the render area fit into the frame area"""
 
-        settings = carb.settings.get_settings()
-        policy = settings.get("/app/hydra/aperture/conform")
+        policy = carb.settings.get_settings().get(SETTING_CONFORM_POLICY)
         
         if policy is None or policy < 0 or policy > 5:
             return CameraUtil.MatchHorizontally
@@ -1036,11 +1079,12 @@ class ViewportHelper():
         def make_lambda(create_fn, destroy_fn, get_visible_fn, set_visible_fn):
             return lambda vp_args: ViewportHelper.SceneCreatorProxy(vp_args, create_fn, destroy_fn, get_visible_fn, set_visible_fn)
 
-
         def __init__(self, vp_args: dict, 
                      create_fn, destroy_fn, get_visible_fn, set_visible_fn):
+            # print("SceneCreatorProxy.__init__", vp_args)
             # dict_keys(['usd_context_name', 'layer_provider', 'viewport_api'])
-            # print("SceneCreatorProxy.__init__")
+            """@ATTN: a scene may be created in multiple viewports. It's up to the _create_fn() callee to make sure it's 
+            being called in the intended viewport by checking vp_args['viewport_api']"""
 
             self._create_fn = create_fn
             self._destroy_fn = destroy_fn
@@ -1150,7 +1194,7 @@ class ViewportHelper():
 
     def info(self, scene_view=None):
 
-        out = f"window_name='{self.window_name}' is_legacy={self.is_legacy} usd_context_name='{self.usd_context_name}'\n"
+        out = f"window_name='{self.window_name}' is_legacy={self.is_legacy} usd_context_name='{self.usd_context_name} api_id='{self._api.id}'\n"
 
         out += f"ui_size={self.ui_size} dpi={omni.ui.Workspace.get_dpi_scale()} px_size={self.px_size} ui_size_ratio={self.ui_size_ratio}\n"
         out += f"render_size_px={self.render_size_px} render_fill_frame={self.render_fill_frame} render_ratio={self.render_size_ratio}\n"

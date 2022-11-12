@@ -22,7 +22,7 @@ Exploded-views can be used to understand a model from its components and can als
 - Interactive editing of the explosion center: just drag the "Center" manipulator in the viewport.
 - Works with meshes, USD Shapes, references/payloads. Point instances and skeletons are moved as a whole.
 - Adds Undo-Redo state when applying changes.
-- Works with NVIDIA's Omniverse Create, Code 2022+ or any other Kit-based apps. Also compatible with the legacy viewport of older Omniverse versions.
+- Works with NVIDIA's Omniverse Create, Code 2022+ or any other Kit-based apps. Compatible with multiple viewports and with the legacy viewport of older Omniverse versions.
 
 ## Installation
 
@@ -93,10 +93,11 @@ Finally, click the Apply button to add an Undo-Redo state. Or Cancel to return t
   - Make sure model is divided in parts (meshes, USD shapes, etc), as this tools works by moving those parts.
   - With the Distance slider away from its leftmost position, move the Center manipulator in the viewport into the middle of the parts group.
   - Separate the group of "stuck" parts before separating the rest of the model.
+- The initial bounds preview and center manipulator work in the active (last used) viewport. To change viewports, close the Model Exploder window and open again after using the new viewport.
 
 
 ## Credits
-This tool is developed by [Syntway](https://www.syntway.com), the VR/Metaverse tools division of FaronStudio, a Portuguese company.
+This tool is developed by [Syntway](https://www.syntway.com), the VR/Metaverse tools division of FaronStudio.
 
 The tool uses SVG icons from [SVG Repo](https://www.svgrepo.com/).
 3D models used in examples are from: [Bastien Genbrugge](https://sketchfab.com/3d-models/spherebot-17baf2bd295f460a924e62854ced1427), [mdesigns100](https://3dexport.com/free-3dmodel-residential-building-model-296192.htm), [dap](https://3dexport.com/free-3dmodel-ym-house-185521.htm), [KatSy](https://3dsky.org/3dmodels/show/chastnyi_dom_3) and Pixar's [Kitchen Set](https://graphics.pixar.com/usd/release/dl_downloads.html).

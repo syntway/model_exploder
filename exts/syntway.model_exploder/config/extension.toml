@@ -1,6 +1,6 @@
 [package]
 # Semantic versioning: https://semver.org/
-version = "0.9.1"
+version = "0.9.2"
 
 title = "Model Exploder"
 description="Separate model parts to view their relationship and how they fit together."

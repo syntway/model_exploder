@@ -32,7 +32,7 @@ from .viewport_helper import ViewportHelper
 
 
 class TranslateManipulator():
-    VERSION = 8
+    VERSION = 9
 
     def __init__(self, viewport: ViewportHelper, 
                  point=Gf.Vec3d(0, 0, 0),
@@ -189,7 +189,7 @@ class TranslateGesture(TranslateChangedGesture):
 
 
     def on_began(self):
-        # print("TranslateGesture.on_began")
+        # print("TranslateGesture.on_began", self._vp.window_name)
 
         if not self.gesture_payload or not self.sender or not isinstance(self.gesture_payload, TranslateDragGesturePayload):
             return
@@ -198,7 +198,7 @@ class TranslateGesture(TranslateChangedGesture):
         if not model:
             return
 
-        pt = model.get_as_floats( model.get_item("translate") )        
+        pt = model.get_as_floats(model.get_item("translate"))
         self._begin_point = Gf.Vec3d(*pt)
 
         if self._vp.is_legacy:
@@ -219,7 +219,7 @@ class TranslateGesture(TranslateChangedGesture):
             return
 
         if self.changed_fn:
-            pt = model.get_as_floats( model.get_item("translate") )        
+            pt = model.get_as_floats(model.get_item("translate"))
             self.changed_fn(2, Gf.Vec3d(*pt))
 
 
@@ -234,7 +234,7 @@ class TranslateGesture(TranslateChangedGesture):
             return
 
         if self.changed_fn:
-            pt = model.get_as_floats( model.get_item("translate") )        
+            pt = model.get_as_floats(model.get_item("translate"))
             self.changed_fn(3, Gf.Vec3d(*pt))
 
 

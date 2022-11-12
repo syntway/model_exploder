@@ -426,6 +426,13 @@ class Window(ui.Window):
 
 
     def _scene_create(self, vp_args):
+
+        vp_api = vp_args["viewport_api"]
+        if not self._vp.same_api(vp_api):  # ensure scene is created in same viewport we're attached to
+            return
+
+        # print("_scene_create", vp_args, self._vp._api)
+
         self._center_manip = TranslateManipulator(viewport=self._vp,
                                                   enabled=False,
                                                   changed_fn=self._on_center_manip_changed
@@ -491,14 +498,15 @@ class Window(ui.Window):
 
 
 
-
+    def prepare_base_aabb_color(self):
+        color = const.BOUNDS_BASE_AABB_COLOR
+        color = (color & 0x00ffffff) | (int(self._options_bounds_alpha * 255) << 24)
+        return color
 
     def _create_base_aabb(self):
         self._base_aabb_lines.clear()
 
-        color = const.BOUNDS_BASE_AABB_COLOR
-        color = (color & 0x00ffffff) | (int(self._options_bounds_alpha*255) << 24)
-        
+        color = self.prepare_base_aabb_color()
         self._base_aabb_lines.append(sc.Line([0, 0, 0], [0, 0, 0], color=color, visible=False))
         self._base_aabb_lines.append(sc.Line([0, 0, 0], [0, 0, 0], color=color, visible=False))
         self._base_aabb_lines.append(sc.Line([0, 0, 0], [0, 0, 0], color=color, visible=False))
@@ -590,8 +598,7 @@ class Window(ui.Window):
         self._options_bounds_alpha = model.as_float
         set_setting(const.SETTINGS_PATH + const.OPTIONS_BOUNDS_ALPHA_SETTING, self._options_bounds_alpha)
         
-        color = const.BOUNDS_BASE_AABB_COLOR
-        color = (color & 0x00ffffff) | (int(self._options_bounds_alpha * 255.) << 24)
+        color = self.prepare_base_aabb_color()
         for l in self._base_aabb_lines:
             l.color = color
         

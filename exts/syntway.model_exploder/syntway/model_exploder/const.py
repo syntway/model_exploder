@@ -6,7 +6,7 @@ DEV_MODE = 0
 WINDOW_NAME = "Model Exploder"
 MENU_PATH = f"Tools/{WINDOW_NAME}"
 SETTINGS_PATH = "persistent/exts/syntway.model_exploder/"
-INFO_URL = "https://syntway.github.io/model_exploder/"
+INFO_URL = "https://www.syntway.com/model_exploder/#how-to-use"
 
 # ui
 DISTANCE_LABEL = "Distance"
@@ -33,7 +33,7 @@ OPTIONS_ACCEL_MAX = 5.
 
 OPTIONS_BOUNDS_ALPHA_LABEL = "Initial Bounds Visibility"
 OPTIONS_BOUNDS_ALPHA_SETTING = "boundsAlpha"
-OPTIONS_BOUNDS_ALPHA_DEFAULT = 0.25
+OPTIONS_BOUNDS_ALPHA_DEFAULT = 0.5
 
 OPTIONS_UNSELECT_ON_USE_LABEL = "Unselect Parts on Use"
 OPTIONS_UNSELECT_ON_USE_SETTING = "unselectOnUse"
@@ -75,7 +75,7 @@ ACCEL_DEFAULT = 1.68
 ACCEL_SETTING = "orderAccel"
 
 DIST_EXP = 1.3
-BOUNDS_BASE_AABB_COLOR = cl("#ffffffff")
+BOUNDS_BASE_AABB_COLOR = cl("#808080ff")  # rgba order
 
 
 # tooltips
