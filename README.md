@@ -8,7 +8,7 @@ Model separation happens as if by a small controlled explosion, emanating from i
 
 Exploded-views can be used to understand a model from its components and can also be used to create drawings for parts catalogs or assembly/maintenance/instruction information. Or in general, just to blow-up a 3D model.
 
-## Quick links
+## Quick Links
 
 * [Features](#features)
 * [Installation](#installation)
