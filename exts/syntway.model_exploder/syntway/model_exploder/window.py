@@ -18,7 +18,7 @@ import omni.kit.notification_manager as nm
 from .libs.viewport_helper import ViewportHelper
 
 from .libs.app_utils import get_setting_or, set_setting, call_after_update
-from .libs.ui_utils import create_reset_button, create_tooltip_fn
+from .libs.ui_utils import create_reset_button, create_tooltip_fn, UiPal, UiPal_refresh
 
 from .libs.manipulators import TranslateManipulator
 
@@ -62,7 +62,7 @@ class Window(ui.Window):
 
         self._vp = ViewportHelper()
         # print(self._vp.info())
-
+        
         # create manipulator scene
         self._scene_reg = self._vp.register_scene_proxy(self._scene_create, self._scene_destroy, 
                                                         self._scene_get_visible, self._scene_set_visible,
@@ -130,6 +130,8 @@ class Window(ui.Window):
     def _build_fn(self):
         """Called to build the UI once the window is visible"""
         # print(f"win._build_fn {self.visible}")
+
+        UiPal_refresh()
 
         self.frame.style = style.WINDOW_FRAME
        

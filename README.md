@@ -43,7 +43,7 @@ Select Model Exploder from the Tools menu...
 ![Tools > Model Exploder](images/menu.png)
 
 
-... And the Model Exploder tool window appears:
+And the Model Exploder tool window appears:
 
 ![Model Exploder window](images/window.png)
 

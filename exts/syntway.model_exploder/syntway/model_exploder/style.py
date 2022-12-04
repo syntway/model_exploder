@@ -2,9 +2,8 @@ from pathlib import Path
 
 import omni.ui as ui
 from omni.ui import color as cl
-from .libs.ui_utils import COLOR_TRANSP_NOT_0, COLOR_DISABLED
+from .libs.ui_utils import UiPal
 
-COLOR_TEXT = 0xffcccccc
 
 THIS_FOLDER_PATH = Path(__file__).parent.absolute()
 EXT_ROOT_FOLDER_PATH = THIS_FOLDER_PATH.parent.parent
@@ -18,24 +17,24 @@ WINDOW_FRAME = {
         "margin": 0,
     },
     "ComboBox:disabled": {
-        "color": COLOR_DISABLED,
+        "color": UiPal.TEXT_DISABLED,
     },
 
     "Slider": {
         "draw_mode": ui.SliderDrawMode.HANDLE,
-        "color": COLOR_TRANSP_NOT_0,
+        "color": UiPal.TRANSP_NOT_0,
         "border_radius": 6,
     },
     "Slider:disabled": {
-        "secondary_color": COLOR_DISABLED,
+        "secondary_color": UiPal.TEXT_DISABLED,
     },
 
     "CheckBox:disabled": {
-        "background_color": COLOR_DISABLED,
+        "background_color": UiPal.TEXT_DISABLED,
     },
 
     "Button.Label:disabled": {
-        "color": COLOR_DISABLED,
+        "color": UiPal.TEXT_DISABLED,
     },
 
     "Button.Label::ever_bright": {
@@ -47,7 +46,7 @@ WINDOW_FRAME = {
 
     "Image::info": {
         "image_url": str(ICONS_PATH / "info.svg"),
-        "color": COLOR_TEXT,
+        "color": UiPal.TEXT,
     },
     "Image::info:hovered": {
         "image_url": str(ICONS_PATH / "info.svg"),
@@ -55,7 +54,7 @@ WINDOW_FRAME = {
     },
 
     "Line": {
-        "color": COLOR_DISABLED
+        "color": UiPal.TEXT_DISABLED
     },
 
     "CollapsableFrame": {

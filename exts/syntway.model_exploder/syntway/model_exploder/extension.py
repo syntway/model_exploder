@@ -45,7 +45,7 @@ class Extension(omni.ext.IExt):
         ui.Workspace.set_show_window_fn(const.WINDOW_NAME, None)
 
         ed_menu = omni.kit.ui.get_editor_menu()
-        if ed_menu:
+        if ed_menu and omni.kit.ui.editor_menu.EditorMenu.has_item(const.MENU_PATH):
             ed_menu.remove_item(const.MENU_PATH)
 
         self._menu = None
@@ -61,8 +61,6 @@ class Extension(omni.ext.IExt):
         # print("ext.show_window", value, self._window)
 
         if value:  # show
-            #assert self._window is None, "self._window should be None"
-
             if self._window is None:
                 self._window = Window(const.WINDOW_NAME, self._ext_id)
                 self._window.set_visibility_changed_fn(self._visibility_changed_fn)
@@ -104,8 +102,7 @@ class ExplodeEngineApplyCommand(omni.kit.commands.Command):
     """
     Undo/redoable command used by engine to apply final and initial position lists
     Don't use outside this extension.
-
-    states are a tuple of (dist, change_list, time_code)
+    States are a tuple of (dist, change_list, time_code)
     """
 
     def __init__(self, initial_state, final_state, stage):

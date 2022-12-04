@@ -2,15 +2,44 @@
 Utility UI functions.
 """
 
+from enum import IntEnum
+
 import omni.ui as ui
 
+VERSION = 4
 
-VERSION = 2
 
-COLOR_TOOLTIP_BACK = 0xffaadddd
-COLOR_DISABLED = 0x33ffffff
-COLOR_RESET = 0xffa07d4f
-COLOR_TRANSP_NOT_0 = 0x00ffffff  # some widgets collapse width if 0x is passed as a color
+
+class UiPaletteDark(IntEnum):
+    """Colors in 0xAABBGGRR format. All colors with ff alpha if possible"""
+    BACK = 0xff23211f  # darker than WINDOW_BACK: general widget background, window title bar
+    BACK_SELECTED = 0xff6e6e6e
+    BACK_HOVERED = BACK_SELECTED
+
+    TEXT = 0xffcccccc
+    TEXT_SELECTED = 0xff8b8a8a
+    TEXT_DISABLED = 0xff505050
+
+    WINDOW_BACK = 0xff454545  # lighter than BACK: window base color where darker controls are placed
+
+    TOOLTIP_TEXT = 0xff303030
+    TOOLTIP_BACK = 0xffaadddd
+
+    RESET = 0xffa07d4f  # field reset button
+
+    TRANSP = 0x00000000
+    TRANSP_NOT_0 = 0x00ffffff  # some widgets collapse width if 0 is passed as a color
+
+
+UiPal = UiPaletteDark
+
+
+def UiPal_refresh():
+    global UiPal
+    UiPal = UiPaletteDark
+
+
+
 
 
 
@@ -20,8 +49,8 @@ def create_tooltip(text: str,
 
     if tooltip_style is None:
         tooltip_style = {
-            "color": 0xcc000000,
-            "background_color": COLOR_TOOLTIP_BACK,
+            "color": UiPal.TOOLTIP_TEXT,
+            "background_color": UiPal.TOOLTIP_BACK,
             "margin": -1,
             "border_width": 0,
         }
@@ -53,13 +82,13 @@ def create_reset_button(reset_value,
 
     if style_on is None:
         style_on = {
-            "background_color": COLOR_RESET, 
+            "background_color": UiPal.RESET, 
             "border_radius": 2, 
             "color": 0xffffffff
         }
 
     if style_off is None:
-        style_off = {"background_color": COLOR_DISABLED}
+        style_off = {"background_color": UiPal.TEXT_DISABLED}
 
     if on_tooltip_text is True:
         on_tooltip_text = "Click to reset to default value"

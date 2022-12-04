@@ -6,7 +6,7 @@ DEV_MODE = 0
 WINDOW_NAME = "Model Exploder"
 MENU_PATH = f"Tools/{WINDOW_NAME}"
 SETTINGS_PATH = "persistent/exts/syntway.model_exploder/"
-INFO_URL = "https://www.syntway.com/model_exploder/#how-to-use"
+INFO_URL = "https://www.syntway.com/model_exploder/?info#how-to-use"
 
 # ui
 DISTANCE_LABEL = "Distance"
