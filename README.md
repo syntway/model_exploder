@@ -38,12 +38,7 @@ This tool is a plain Omniverse extension that can be installed like any other.
 
 ## How to Use
 
-Select Model Exploder from the Tools menu...
-
-![Tools > Model Exploder](images/menu.png)
-
-
-And the Model Exploder tool window appears:
+Select Model Exploder from the Window menu - the Model Exploder tool window appears:
 
 ![Model Exploder window](images/window.png)
 

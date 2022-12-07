@@ -1,6 +1,6 @@
 [package]
 # Semantic versioning: https://semver.org/
-version = "0.9.3"
+version = "0.9.4"
 
 title = "Model Exploder"
 description="Separate model parts to view their relationship and how they fit together."
@@ -9,7 +9,7 @@ authors = ["Syntway"]
 category = "Tools"
 keywords = ["kit", "tool", "tools", "util", "utils", "explode model", "exploded view"]
 
-repository = "https://github.com/syntway/model_exploder"
+# repository = "https://github.com/syntway/model_exploder"
 
 icon = "data/icons/ext.png"
 preview_image = "data/preview.png"

@@ -16,7 +16,7 @@ Exploded-views can be used to understand a model from its components and can als
 
 
 ### Tips
-- Model Exploder is available in the Tools menu.
+- Model Exploder is available in the Window menu.
 - Click the ( i ) button for help and more information.
 - On complex models, the first interaction with the Distance slider might take a few seconds - next ones are much faster.
 - If model parts do not separate and remain joined to each other:

@@ -4,7 +4,7 @@ DEV_MODE = 0
 
 # extension/window
 WINDOW_NAME = "Model Exploder"
-MENU_PATH = f"Tools/{WINDOW_NAME}"
+MENU_PATH = f"Window/{WINDOW_NAME}"
 SETTINGS_PATH = "persistent/exts/syntway.model_exploder/"
 INFO_URL = "https://www.syntway.com/model_exploder/?info#how-to-use"
 
