@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.9.5] - 2024-04-12
 ### Changed
 - Fix deprecated SDF.Begin/EndChangeBlock() reference.
+- Bump version.
 
 ## [0.9.4] - 2022-12-07
 ### Changed
