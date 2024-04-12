@@ -482,19 +482,17 @@ class Engine():
             
             stage = stage
             sdf_change_block = 2
-            Sdf.BeginChangeBlock()
+            with Sdf.ChangeBlock():
 
-            for ch in changes:
-                prim, path, lmat = ch
-                if prim is None:
-                    prim = stage.GetPrimAtPath(path)
-                # print(prim, ltrans)
+                for ch in changes:
+                    prim, path, lmat = ch
+                    if prim is None:
+                        prim = stage.GetPrimAtPath(path)
+                    # print(prim, ltrans)
 
-                with create_edit_context(path, stage):
-                    set_prim_translation(prim, lmat, sdf_change_block=sdf_change_block, time_code=time_code)
-                    #set_prim_translation_fast(prim, lmat, sdf_change_block=sdf_change_block, time_code=time_code)
-
-            Sdf.EndChangeBlock()
+                    with create_edit_context(path, stage):
+                        set_prim_translation(prim, lmat, sdf_change_block=sdf_change_block, time_code=time_code)
+                        #set_prim_translation_fast(prim, lmat, sdf_change_block=sdf_change_block, time_code=time_code)
 
         else:
 

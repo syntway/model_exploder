@@ -62,6 +62,8 @@ def set_prim_transform(prim, mat,
                        time_code=Usd.TimeCode.Default()):
     """sdf_change_block: 0: don't use, 1: use locally, 2: assume already began"""
 
+    sdf_change_block = 0
+
     stage = prim.GetStage()
 
     if sdf_change_block == 1:
@@ -302,6 +304,8 @@ def set_prim_translation(prim, trans,
     """sdf_change_block: 0: don't use, 1: use locally, 2: assume already began"""
     # print(prim.GetPath().pathString)
 
+    sdf_change_block = 0
+
     mat_op = trans_op = None
     xform = UsdGeom.Xformable(prim)
     for op in xform.GetOrderedXformOps():
@@ -360,6 +364,8 @@ def set_prim_translation_fast(prim, trans,
     sdf_change_block: 0: don't use, 1: use locally, 2: assume already began
     see: https://graphics.pixar.com/usd/release/api/class_sdf_change_block.html
     """
+
+    sdf_change_block = 0
 
     if prim.HasAttribute("xformOp:mat"):  # has matrix op
         if sdf_change_block == 1:

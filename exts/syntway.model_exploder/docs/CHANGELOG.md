@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.5] - 2024-04-12
+### Changed
+- Fix deprecated SDF.Begin/EndChangeBlock() reference.
+
 ## [0.9.4] - 2022-12-07
 ### Changed
 - Moved menu entry to the Window top-level menu, because some apps hide the Tools menu, like Code.
